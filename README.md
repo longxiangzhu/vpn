@@ -16,7 +16,7 @@
 下载项目后，进入脚本目录并运行对应脚本：
 
 ```bash
-git clone git@github.com:longxiangzhu/vpn.git
+git clone https://github.com/longxiangzhu/vpn.git
 cd vpn
 bash install_ubuntu.sh
 ```
@@ -42,6 +42,16 @@ bash install_centos.sh
 7. 下载并运行 Brook 安装脚本。
 8. 添加证书续期及重启 Gost 的定时任务。
 9. 退出。
+
+依次选择 1，2 ，3，4，8，9
+
+安装完成以后，执行以下命令检查一下。
+docker ps       # 确认gost运行正常
+ crontab -l       # 确认第8步部署的定时任务成功了
+ curl -v "https://www.google.com" --proxy "https://your-domain-name:port" --proxy-user 'user:pwd'
+
+
+
 
 ## 注意事项
 
