@@ -76,7 +76,18 @@ check_container(){
 
 install_certbot() {
     echo "开始安装 certbot 命令行工具"
-    install_packages epel-release
+    if grep -qi 'Oracle Linux' /etc/os-release 2>/dev/null || grep -qi 'Oracle Linux' /etc/redhat-release 2>/dev/null; then
+        # Oracle Linux 9 ships Certbot in its developer EPEL repository.
+        install_packages oracle-epel-release-el9 || return 1
+        if command -v dnf >/dev/null 2>&1; then
+            dnf config-manager --set-enabled ol9_developer_EPEL || return 1
+        else
+            yum-config-manager --enable ol9_developer_EPEL || return 1
+        fi
+    else
+        install_packages epel-release || return 1
+    fi
+    if command -v dnf >/dev/null 2>&1; then dnf makecache; else yum makecache; fi
     install_packages certbot
 }
 
@@ -147,7 +158,8 @@ init(){
     VERSION_MIN=4.9.0
     echo -e "\n菜单选项\n"
     PS3="请选择操作: "
-    select opt in "安装 TCP BBR 拥塞控制算法" "安装 Docker 服务程序" "创建 SSL 证书" \
+    while true; do
+      select opt in "安装 TCP BBR 拥塞控制算法" "安装 Docker 服务程序" "创建 SSL 证书" \
         "安装 Gost HTTP/2 代理服务" "安装 ShadowSocks 代理服务" "安装 VPN/L2TP 服务" \
         "安装 Brook 代理服务" "创建证书更新 CronJob" "退出"; do
         case "$REPLY" in
@@ -155,6 +167,8 @@ init(){
             5) install_shadowsocks;; 6) install_vpn;; 7) install_brook;; 8) create_cron_job;;
             9) exit 0;; *) echo -e "${COLOR_ERROR}请输入有效的选项编号。${COLOR_NONE}";;
         esac
+        break
+      done
     done
 }
 

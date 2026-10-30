@@ -47,7 +47,7 @@ bash install_centos.sh
 
 - 这些脚本会安装软件、修改内核网络参数、启动容器并配置定时任务。运行前请检查服务器和防火墙策略。
 - 云服务器安全组及主机防火墙需要放行相应服务端口；脚本不会自动配置云平台安全组。
-- CentOS 仓库、EPEL 和 Docker CE 的可用性取决于系统版本及软件源配置。
+- CentOS 仓库、EPEL 和 Docker CE 的可用性取决于系统版本及软件源配置。Oracle Linux 9 的 Certbot 从 `ol9_developer_EPEL` 仓库安装。
 - BBR 是否可用取决于运行内核及其模块支持。CentOS 脚本不会自动升级内核。
 - VPN、Gost 和 Shadowsocks 等服务的口令由用户交互输入。请使用强口令，并妥善保管。
 - Ubuntu 脚本面向 Ubuntu 18.04，其软件源配置（包括 Docker、Certbot）可能需要根据当前发行版维护情况调整。
