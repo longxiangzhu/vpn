@@ -6,8 +6,8 @@
 
 | 脚本 | 目标系统 |
 | --- | --- |
-| `install_ubuntu.sh` | Ubuntu 18.04（脚本按此版本编写） |
-| `install_centos.sh` | CentOS 7/8/Stream |
+| `scripts/install_ubuntu.sh` | Ubuntu 18.04（脚本按此版本编写） |
+| `scripts/install_centos.sh` | CentOS 7/8/Stream |
 
 请在与脚本对应的系统上运行。CentOS 脚本要求使用 `root` 用户；Ubuntu 脚本通过 `sudo` 执行系统操作。
 
@@ -18,13 +18,13 @@
 ```bash
 git clone https://github.com/longxiangzhu/vpn.git
 cd vpn
-bash install_ubuntu.sh
+bash scripts/install_ubuntu.sh
 ```
 
 CentOS 上运行：
 
 ```bash
-bash install_centos.sh
+bash scripts/install_centos.sh
 ```
 
 脚本会显示菜单，输入对应编号选择操作。安装 Docker 后，容器相关菜单项才可使用。首次创建证书前，需先将域名解析到此服务器，并确保外部可以访问验证所需端口。
@@ -43,15 +43,37 @@ bash install_centos.sh
 8. 添加证书续期及重启 Gost 的定时任务。
 9. 退出。
 
-依次选择 1，2 ，3，4，8，9
+建议按菜单顺序完成以下步骤：**1 → 2 → 3 → 4 → 8 → 9**。
 
-安装完成以后，执行以下命令检查一下。
-docker ps       # 确认gost运行正常
- crontab -l       # 确认第8步部署的定时任务成功了
- curl -v "https://www.google.com" --proxy "https://your-domain-name:port" --proxy-user 'user:pwd'
+### 验证安装
 
+安装完成后，在服务器上运行以下命令检查 Gost 容器和定时任务：
 
+```bash
+# 确认 Gost 容器正在运行
+docker ps
 
+# 确认第 8 步配置的证书续期与容器重启任务已写入
+crontab -l
+```
+
+然后从客户端通过代理测试网络连接。请将域名、端口、用户名和密码替换为安装时设置的值：
+
+```bash
+curl -v https://www.google.com \
+  --proxy https://your-domain-name:port \
+  --proxy-user 'user:pwd'
+```
+
+如果代理连接失败，请检查域名解析、云平台安全组和服务器防火墙是否允许代理端口的入站 TCP 流量。
+
+### 插入图片
+
+可以将图片文件（例如 `images/menu.png`）提交到仓库，再在 Markdown 中引用：
+
+```markdown
+![安装菜单示例](images/menu.png)
+```
 
 ## 注意事项
 
