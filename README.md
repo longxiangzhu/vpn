@@ -31,17 +31,9 @@ bash scripts/install_centos.sh
 
 ## 菜单功能
 
-两个脚本提供以下功能：
+脚本启动后的菜单如下：
 
-1. 启用 TCP BBR 拥塞控制算法（内核版本低于 4.9 时提示升级内核）。
-2. 安装并启动 Docker。
-3. 使用 Certbot standalone 模式申请 TLS 证书。
-4. 启动 Gost HTTP/2 代理容器，需要域名、用户名、密码和端口，以及该域名对应的证书。
-5. 启动 Shadowsocks 容器，需要密码和监听端口。
-6. 启动 VPN/L2TP 容器，需要用户名、密码和 PSK。
-7. 下载并运行 Brook 安装脚本。
-8. 添加证书续期及重启 Gost 的定时任务。
-9. 退出。
+![安装脚本菜单](images/menu.png)
 
 建议按菜单顺序完成以下步骤：**1 → 2 → 3 → 4 → 8 → 9**。
 
@@ -66,14 +58,6 @@ curl -v https://www.google.com \
 ```
 
 如果代理连接失败，请检查域名解析、云平台安全组和服务器防火墙是否允许代理端口的入站 TCP 流量。
-
-### 插入图片
-
-可以将图片文件（例如 `images/menu.png`）提交到仓库，再在 Markdown 中引用：
-
-```markdown
-![安装菜单示例](images/menu.png)
-```
 
 ## 注意事项
 
